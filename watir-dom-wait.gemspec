@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "watir-dom-wait"
   spec.version       = Watir::Dom::Wait::VERSION
   spec.authors       = ["Alex Rodionov"]
-  spec.email         = ["p0deje@gmail.com"]
+  spec.email         = %w(p0deje@gmail.com)
   spec.description   = "Watir extension providing with DOM-based waiting"
   spec.summary       = "Watir extension providing with DOM-based waiting"
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/p0deje/watir-dom-wait"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
