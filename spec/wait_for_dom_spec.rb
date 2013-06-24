@@ -23,7 +23,7 @@ describe Watir::Element do
 
         it "raises timeout error" do
           @browser.button(:id, "quick").click
-          lambda { browser.div.when_dom_changed(:timeout => 2).spans }.should raise_error(Watir::Wait::TimeoutError)
+          lambda { @browser.div.when_dom_changed(:timeout => 2).spans }.should raise_error(Watir::Wait::TimeoutError)
         end
       end
 
