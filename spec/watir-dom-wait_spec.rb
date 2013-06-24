@@ -57,4 +57,17 @@ describe Watir::Element do
       end
     end
   end
+
+  describe "#wait_until_dom_changed" do
+    it "calls #when_dom_changed" do
+      div = @browser.div
+      opts = { timeout: 1, interval: 2, delay: 3 }
+      div.should_receive(:when_dom_changed).with(opts)
+      div.wait_until_dom_changed(opts)
+    end
+
+    it "returns nil" do
+      @browser.div.wait_until_dom_changed.should == nil
+    end
+  end
 end
