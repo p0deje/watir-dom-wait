@@ -10,9 +10,9 @@ describe Watir::Element do
         end
 
         it "may be run more than one time" do
-          (1..3).each do |i|
+          3.times do |i|
             @browser.button(:id, "quick").click
-            @browser.div.when_dom_changed.should have(20 * i).spans
+            @browser.div.when_dom_changed.should have(20 * (i + 1)).spans
           end
         end
 
