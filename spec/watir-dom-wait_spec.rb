@@ -48,6 +48,13 @@ describe Watir::Element do
             @browser.div.when_dom_changed(:timeout => 2) { |div| div.spans }
           end.should raise_error(Watir::Wait::TimeoutError)
         end
+
+        it "returns block evaluation" do
+          @browser.button(:id, "quick").click
+          @browser.div.when_dom_changed do |div|
+            div.spans.size
+          end.should == 20
+        end
       end
     end
 

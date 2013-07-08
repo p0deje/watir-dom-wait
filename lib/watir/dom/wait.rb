@@ -6,7 +6,7 @@ module Watir
   module Dom
     module Wait
 
-      JAVASCRIPT = File.read("lib/watir/dom/extensions/js/waitForDom.js")
+      JAVASCRIPT = File.read("#{File.dirname(__FILE__)}/extensions/js/waitForDom.js")
       DOM_READY = "return watir.domReady;"
 
     end # Wait
