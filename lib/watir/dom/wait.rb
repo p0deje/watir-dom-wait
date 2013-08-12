@@ -12,9 +12,9 @@ module Watir
 
       class << self
 
-        attr_reader :timeout
-        attr_reader :interval
-        attr_reader :delay
+        attr_writer :timeout
+        attr_writer :interval
+        attr_writer :delay
 
         def timeout
           @timeout ||= 30
