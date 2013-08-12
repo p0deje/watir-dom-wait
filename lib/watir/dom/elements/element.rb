@@ -56,8 +56,9 @@ module Watir
     #
 
     def wait_until_dom_changed(opts = {})
-      when_dom_changed(opts)
-      nil
+      when_dom_changed(opts) do
+        # just trigger waiting
+      end
     end
 
   end # Element

@@ -6,15 +6,21 @@ Watir extension which provides DOM-based waiting.
 
 Add this line to your application's Gemfile:
 
-    gem 'watir-dom-wait'
+```ruby
+gem 'watir-dom-wait'
+```
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install watir-dom-wait
+```bash
+$ gem install watir-dom-wait
+```
 
 ## Usage
 
@@ -62,9 +68,19 @@ With 5 seconds delay of how long to waiting for DOM to start modifying:
 browser.div(class: 'test').when_dom_changed(delay: 5).a(class: 'link').click
 ```
 
+Timeouts can also be specified statically:
+
+```ruby
+Watir::Dom::Wait.timeout  = 1
+Watir::Dom::Wait.delay    = 1
+Watir::Dom::Wait.interval = 0.15
+```
+
 ## How it works
 
 By attaching `DOMSubtreeModified` event to element. It's supported in all major browsers (except Presto-powered Opera).
+
+Note, that it also rescues `Selenium::WebDriver::Error::StaleElementReferenceError` when waits for DOM.
 
 ## Contributors
 
