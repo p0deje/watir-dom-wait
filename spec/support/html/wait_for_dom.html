@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>wait for dom test</title>
+    <script type="text/javascript" charset="utf-8">
+      function modifySubtree(id, number, timeout) {
+        var timer = setInterval(function() {
+          var div = document.getElementById(id);
+          var span = document.createElement("span");
+          span.innerHTML = "Hello!";
+          div.appendChild(span);
+          div.appendChild(document.createElement("br"));
+        }, timeout);
+
+        setTimeout(function() {
+          clearInterval(timer);
+        }, number * timeout);
+      }
+
+	  function staleDiv(parent_id, child_id) {
+        var parent  = document.getElementById(parent_id);
+        var child   = document.getElementById(child_id);
+		var new_div = document.createElement("div");
+		new_div.id  = child_id;
+		new_div.style = 'display: block;';
+
+        setTimeout(function() {
+		  parent.removeChild(child);
+		  parent.appendChild(new_div);
+        }, 1000);
+	  }
+    </script>
+  </head>
+
+  <body>
+    <div id="container1">
+	  <div id="container2"></div>
+	</div>
+    <br />
+    <button onclick="modifySubtree('container1', 5, 1000);" id="long">Start modifying subtree with 5 node operations and 1000 ms delay between them</button>
+    <br />
+    <button onclick="modifySubtree('container1', 20, 100);" id="quick">Start modifying subtree with 20 node operations and 100 ms delay between them</button>
+    <br />
+    <button onclick="modifySubtree('container2', 20, 100); staleDiv('container1', 'container2');" id="stale">Start modifying and then update child div</button>
+  </body>
+</html>

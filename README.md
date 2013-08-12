@@ -18,6 +18,18 @@ Or install it yourself as:
 
 ## Usage
 
+Require to monkey patch `Watir::Element` instance:
+
+```ruby
+require 'watir-dom-wait'
+```
+
+Simple DOM waiting:
+
+```ruby
+browser.div(class: 'test').wait_until_dom_changed
+```
+
 With element returned:
 
 ```ruby

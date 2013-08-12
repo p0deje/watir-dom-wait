@@ -29,18 +29,21 @@ module Watir
 
     def when_dom_changed(opts = {})
       message = "waiting for DOM subtree to finish modifying in #{selector_string}"
-      opts[:timeout]  ||= 30
-      opts[:interval] ||= 0.5
-      opts[:delay]    ||= 1
+      opts[:timeout]  ||= Dom::Wait.timeout
+      opts[:interval] ||= Dom::Wait.interval
+      opts[:delay]    ||= Dom::Wait.delay
 
       if block_given?
         js = Dom::Wait::JAVASCRIPT.dup
         browser.execute_script js, self, opts[:interval], opts[:delay]
-        Watir::Wait.until(opts[:timeout], message) { browser.execute_script(Dom::Wait::DOM_READY) == 0 }
+        Wait.until(opts[:timeout], message) { browser.execute_script(Dom::Wait::DOM_READY) == 0 }
         yield self
       else
         WhenDOMChangedDecorator.new(self, opts, message)
       end
+
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      locate
     end
 
     #

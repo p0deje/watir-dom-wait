@@ -9,6 +9,26 @@ module Watir
       JAVASCRIPT = File.read("#{File.dirname(__FILE__)}/extensions/js/waitForDom.js")
       DOM_READY = "return watir.domReady;"
 
+
+      class << self
+
+        attr_reader :timeout
+        attr_reader :interval
+        attr_reader :delay
+
+        def timeout
+          @timeout ||= 30
+        end
+
+        def interval
+          @interval ||= 0.5
+        end
+
+        def delay
+          @delay ||= 1
+        end
+
+      end # << self
     end # Wait
   end # Dom
 
