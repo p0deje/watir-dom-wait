@@ -43,7 +43,7 @@ module Watir
       end
 
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      locate
+      retry
     end
 
     #
