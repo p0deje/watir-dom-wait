@@ -80,7 +80,7 @@ Watir::Dom::Wait.interval = 0.15
 
 By attaching `DOMSubtreeModified` event to element. It's supported in all major browsers (except Presto-powered Opera).
 
-Note, that it also rescues `Selenium::WebDriver::Error::StaleElementReferenceError` when waits for DOM.
+Note, that it also rescues `Selenium::WebDriver::Error::StaleElementReferenceError` and `Selenium::WebDriver::Error::JavascriptError` when waits for DOM.
 
 ## Contributors
 
