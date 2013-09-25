@@ -65,6 +65,14 @@ describe Watir::Element do
       end
     end
 
+    context "when effects are used" do
+      it "properly handles fading", bug: '1' do
+        @browser.button(:id => 'fade').click
+        text = @browser.div(:id => 'container3').when_dom_changed.span.text
+        expect(text).to eq('Fade')
+      end
+    end
+
     context "when element goes stale" do
       before(:all) do
         Watir.always_locate = false

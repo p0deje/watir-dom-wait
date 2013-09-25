@@ -17,30 +17,47 @@
         }, number * timeout);
       }
 
-	  function staleDiv(parent_id, child_id) {
+      function staleDiv(parent_id, child_id) {
         var parent  = document.getElementById(parent_id);
         var child   = document.getElementById(child_id);
-		var new_div = document.createElement("div");
-		new_div.id  = child_id;
-		new_div.style = 'display: block;';
+        var new_div = document.createElement("div");
+        new_div.id    = child_id;
+        new_div.style = 'display: block;';
 
         setTimeout(function() {
-		  parent.removeChild(child);
-		  parent.appendChild(new_div);
+          parent.removeChild(child);
+          parent.appendChild(new_div);
         }, 1000);
-	  }
+      }
+
+      function fadeIn(id, value) {
+        var el = document.getElementById(id);
+        el.style.opacity = '0.' + value;
+        if (value < 9) {
+          value++;
+          setTimeout(function() { fadeIn(id, value) }, 1000);
+        } else {
+          el.innerHTML = 'Fade';
+          return;
+        }
+      }
     </script>
   </head>
 
   <body>
-    <div id="container1">
-	  <div id="container2"></div>
-	</div>
-    <br />
     <button onclick="modifySubtree('container1', 5, 1000);" id="long">Start modifying subtree with 5 node operations and 1000 ms delay between them</button>
     <br />
     <button onclick="modifySubtree('container1', 20, 100);" id="quick">Start modifying subtree with 20 node operations and 100 ms delay between them</button>
     <br />
     <button onclick="modifySubtree('container2', 20, 100); staleDiv('container1', 'container2');" id="stale">Start modifying and then update child div</button>
+    <br />
+    <button onclick="fadeIn('span', 0)" id="fade">Start fading in text</button>
+    <br />
+    <div id="container1">
+      <div id="container2"></div>
+    </div>
+    <div id="container3">
+      <span id="span" style="opacity: 0"></span>
+    </div>
   </body>
 </html>

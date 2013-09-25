@@ -1,6 +1,8 @@
 require "watir/dom/wait"
 
 RSpec.configure do |spec|
+  spec.filter_run_excluding bug: /\d+/
+
   spec.before(:all) do
     @browser = Watir::Browser.new
     @browser.goto "data:text/html,#{File.read('spec/support/html/wait_for_dom.html')}"
