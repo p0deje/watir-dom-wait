@@ -34,7 +34,6 @@
         var el = document.getElementById(id);
         el.style.opacity = '0.' + value;
         if (value < 9) {
-          console.log(value);
           value++;
           setTimeout(function() { fadeIn(id, value) }, 400);
         } else {

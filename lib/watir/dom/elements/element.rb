@@ -22,16 +22,16 @@ module Watir
     #   browser.div(id: 'test').when_dom_changed(delay: 5).a(id: 'link').click
     #
     # @param [Hash] opts
-    # @option opts [Fixnum] timeout seconds to wait before timing out
     # @option opts [Float] interval How long to wait between DOM nodes adding/removing in seconds. Defaults to 0.5
-    # @option opts [Float] delay How long to wait for DOM modifications to start in seconds. Defaults to 1
+    # @option opts [Float] delay How long to wait for DOM modifications to start
+    # @option opts [Fixnum] timeout seconds to wait before timing out
     #
 
     def when_dom_changed(opts = {})
       message = "waiting for DOM subtree to finish modifying in #{selector_string}"
-      opts[:timeout]  ||= Dom::Wait.timeout
       opts[:interval] ||= Dom::Wait.interval
       opts[:delay]    ||= Dom::Wait.delay
+      opts[:timeout]  ||= Dom::Wait.timeout
 
       if block_given?
         Dom::Wait.wait_for_dom(self, opts, message)
@@ -45,9 +45,9 @@ module Watir
     # Waits until DOM is changed within the element.
     #
     # @param [Hash] opts
-    # @option opts [Fixnum] timeout seconds to wait before timing out
     # @option opts [Float] interval How long to wait between DOM nodes adding/removing in seconds. Defaults to 0.5
-    # @option opts [Float] delay How long to wait for DOM modifications to start in seconds. Defaults to 1
+    # @option opts [Float] delay How long to wait for DOM modifications to start
+    # @option opts [Fixnum] timeout seconds to wait before timing out
     #
 
     def wait_until_dom_changed(opts = {})
