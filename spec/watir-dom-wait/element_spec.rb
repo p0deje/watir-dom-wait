@@ -66,10 +66,10 @@ describe Watir::Element do
     end
 
     context "when effects are used" do
-      it "properly handles fading", bug: '1' do
+      it "properly handles fading" do
         @browser.button(:id => 'fade').click
         text = @browser.div(:id => 'container3').when_dom_changed.span.text
-        expect(text).to eq('Fade')
+        expect(text).to eq('Faded')
       end
     end
 

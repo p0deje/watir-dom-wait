@@ -34,10 +34,11 @@
         var el = document.getElementById(id);
         el.style.opacity = '0.' + value;
         if (value < 9) {
+          console.log(value);
           value++;
-          setTimeout(function() { fadeIn(id, value) }, 1000);
+          setTimeout(function() { fadeIn(id, value) }, 400);
         } else {
-          el.innerHTML = 'Fade';
+          el.innerHTML = 'Faded';
           return;
         }
       }
@@ -57,7 +58,7 @@
       <div id="container2"></div>
     </div>
     <div id="container3">
-      <span id="span" style="opacity: 0"></span>
+      <span id="span" style="opacity: 0">To Fade</span>
     </div>
   </body>
 </html>
