@@ -86,9 +86,7 @@ describe Watir::Element do
         div = @browser.div(:id => 'container2')
         div.exists?
         @browser.refresh
-        expect {
-          div.when_dom_changed.text
-        }.not_to raise_error(Selenium::WebDriver::Error::StaleElementReferenceError)
+        expect { div.when_dom_changed.text }.not_to raise_error
       end
     end
   end
