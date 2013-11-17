@@ -28,6 +28,30 @@ module Watir
           @delay ||= 1
         end
 
+        #
+        # Executes block rescuing all necessary exceptions.
+        # @param [Proc] block
+        # @api private
+        #
+
+        def rescue(&block)
+          block.call
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError, Exception::UnknownObjectException => error
+          msg = 'Element not found in the cache - perhaps the page has changed since it was looked up'
+          if error.is_a?(Watir::Exception::UnknownObjectException) && !error.message.include?(msg)
+            raise error
+          else
+            # element can become stale, so we just retry DOM waiting
+            retry
+          end
+        rescue Selenium::WebDriver::Error::JavascriptError
+          # in rare cases, args passed to execute script are not correct, for example:
+          #   correct:   [#<Watir::Body:0x6bb2ccb9de06cb92 located=false selector={:element=>(webdriver element)}>, 300, 3000]    [el, interval, delay]
+          #   incorrect: [0.3, 3000, nil]                                                                                         [interval, delay, ?]
+          # TODO there might be some logic (bug?) in Selenium which does this
+          retry
+        end
+
       end # << self
     end # Wait
   end # Dom
@@ -52,10 +76,12 @@ module Watir
         raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
       end
 
-      @element.browser.execute_script @js, @element, @opts[:interval], @opts[:delay]
-      Watir::Wait.until(@opts[:timeout], @message) { @element.browser.execute_script(Dom::Wait::DOM_READY) == 0 }
+      Dom::Wait.rescue do
+        @element.browser.execute_script @js, @element, @opts[:interval], @opts[:delay]
+        Watir::Wait.until(@opts[:timeout], @message) { @element.browser.execute_script(Dom::Wait::DOM_READY) == 0 }
 
-      @element.__send__(m, *args, &block)
+        @element.__send__(m, *args, &block)
+      end
     end
 
     def respond_to?(*args)

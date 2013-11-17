@@ -89,6 +89,13 @@ describe Watir::Element do
         expect { div.when_dom_changed.text }.not_to raise_error
       end
     end
+
+    context "when element cannot be located" do
+      it "relocates element" do
+        div = @browser.div(:id => 'doesnotexist')
+        expect { div.when_dom_changed.text }.to raise_error(Watir::Exception::UnknownObjectException)
+      end
+    end
   end
 
   describe "#wait_until_dom_changed" do

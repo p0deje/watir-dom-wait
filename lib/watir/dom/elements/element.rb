@@ -33,25 +33,16 @@ module Watir
       opts[:interval] ||= Dom::Wait.interval
       opts[:delay]    ||= Dom::Wait.delay
 
-      if block_given?
-        js = Dom::Wait::JAVASCRIPT.dup
-        browser.execute_script js, self, opts[:interval], opts[:delay]
-        Wait.until(opts[:timeout], message) { browser.execute_script(Dom::Wait::DOM_READY) == 0 }
-        yield self
-      else
-        WhenDOMChangedDecorator.new(self, opts, message)
+      Dom::Wait.rescue do
+        if block_given?
+          js = Dom::Wait::JAVASCRIPT.dup
+          browser.execute_script js, self, opts[:interval], opts[:delay]
+          Wait.until(opts[:timeout], message) { browser.execute_script(Dom::Wait::DOM_READY) == 0 }
+          yield self
+        else
+          WhenDOMChangedDecorator.new(self, opts, message)
+        end
       end
-
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError, Selenium::WebDriver::Error::JavascriptError
-      # StaleElementReferenceError
-      #   element can become stale, so we just retry DOM waiting
-      #
-      # JavascriptError
-      #   in rare cases, args passed to execute script are not correct, for example:
-      #     correct:   [#<Watir::Body:0x6bb2ccb9de06cb92 located=false selector={:element=>(webdriver element)}>, 300, 3000]    [el, interval, delay]
-      #     incorrect: [0.3, 3000, nil]                                                                                         [interval, delay, ?]
-      #   TODO there might be some logic (bug?) in Selenium which does this
-      retry
     end
 
     #
