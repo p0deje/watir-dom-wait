@@ -80,7 +80,7 @@ Watir::Dom::Wait.interval = 0.15
 
 Using [MutationObserver](https://developer.mozilla.org/en/docs/Web/API/MutationObserver).
 
-Note, that it also rescues `Selenium::WebDriver::Error::StaleElementReferenceError` and `Selenium::WebDriver::Error::JavascriptError` when waits for DOM.
+Note, that it also rescues `Selenium::WebDriver::Error::StaleElementReferenceError`, `Selenium::WebDriver::Error::JavascriptError` and `Watir::Exception::UnknownObjectException` (only when its message contains `Element not found in the cache - perhaps the page has changed since it was looked up`) when waits for DOM.
 
 ## Contributors
 
