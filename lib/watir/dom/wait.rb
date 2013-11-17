@@ -1,5 +1,6 @@
 require "watir-webdriver"
 require "watir/dom/wait/version"
+require "watir/dom/decorator"
 require "watir/dom/elements/element"
 
 module Watir
@@ -29,6 +30,25 @@ module Watir
         end
 
         #
+        # Waits until DOM is changed.
+        # @param [Watir::Element] element
+        # @param [Hash] opts
+        # @option opts [Fixnum] timeout seconds to wait before timing out
+        # @option opts [Float] interval How long to wait between DOM nodes adding/removing in seconds. Defaults to 0.5
+        # @option opts [Float] delay How long to wait for DOM modifications to start in seconds. Defaults to 1
+        # @api private
+        #
+
+        def wait_for_dom(element, opts, message)
+          self.rescue do
+            js = JAVASCRIPT.dup
+            browser = element.browser
+            browser.execute_script js, element, opts[:interval], opts[:delay]
+            Watir::Wait.until(opts[:timeout], message) { browser.execute_script(DOM_READY) == 0 }
+          end
+        end
+
+        #
         # Executes block rescuing all necessary exceptions.
         # @param [Proc] block
         # @api private
@@ -55,38 +75,4 @@ module Watir
       end # << self
     end # Wait
   end # Dom
-
-
-  #
-  # Wraps an Element so that any subsequent method calls are
-  # put on hold until the DOM subtree is modified within the element.
-  #
-
-  class WhenDOMChangedDecorator
-
-    def initialize(element, opts, message = nil)
-      @element = element
-      @opts    = opts
-      @message = message
-      @js      = Dom::Wait::JAVASCRIPT.dup
-    end
-
-    def method_missing(m, *args, &block)
-      unless @element.respond_to?(m)
-        raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
-      end
-
-      Dom::Wait.rescue do
-        @element.browser.execute_script @js, @element, @opts[:interval], @opts[:delay]
-        Watir::Wait.until(@opts[:timeout], @message) { @element.browser.execute_script(Dom::Wait::DOM_READY) == 0 }
-
-        @element.__send__(m, *args, &block)
-      end
-    end
-
-    def respond_to?(*args)
-      @element.respond_to?(*args)
-    end
-
-  end # WhenDOMChangedDecorator
 end # Watir

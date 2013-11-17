@@ -33,15 +33,11 @@ module Watir
       opts[:interval] ||= Dom::Wait.interval
       opts[:delay]    ||= Dom::Wait.delay
 
-      Dom::Wait.rescue do
-        if block_given?
-          js = Dom::Wait::JAVASCRIPT.dup
-          browser.execute_script js, self, opts[:interval], opts[:delay]
-          Wait.until(opts[:timeout], message) { browser.execute_script(Dom::Wait::DOM_READY) == 0 }
-          yield self
-        else
-          WhenDOMChangedDecorator.new(self, opts, message)
-        end
+      if block_given?
+        Dom::Wait.wait_for_dom(self, opts, message)
+        yield self
+      else
+        WhenDOMChangedDecorator.new(self, opts, message)
       end
     end
 
