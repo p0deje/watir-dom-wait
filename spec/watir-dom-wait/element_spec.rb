@@ -4,16 +4,9 @@ describe Watir::Element do
   describe "#when_dom_changed" do
     context "when DOM is changed" do
       context "when block is not given" do
-        it "waits using event handler" do
+        it "waits using mutation observer" do
           @browser.button(:id => "quick").click
           expect(@browser.div.when_dom_changed).to have(20).spans
-        end
-
-        it "may be run more than one time" do
-          3.times do |i|
-            @browser.button(:id => "quick").click
-            expect(@browser.div.when_dom_changed).to have(20 * (i + 1)).spans
-          end
         end
 
         it "waits using custom interval" do
@@ -25,10 +18,20 @@ describe Watir::Element do
           @browser.button(:id => "quick").click
           expect { @browser.div.when_dom_changed(:timeout => 2).spans }.to raise_error(Watir::Wait::TimeoutError)
         end
+
+        context "when run more than one time" do
+          it "waits for DOM consecutively" do
+            3.times do |i|
+              sleep 1
+              @browser.button(:id => "quick").click
+              expect(@browser.div.when_dom_changed(:timeout => 5, :delay => 2)).to have(20 * (i + 1)).spans
+            end
+          end
+        end
       end
 
       context "when block given" do
-        it "waits using event handler" do
+        it "waits using mutation observer" do
           @browser.button(:id => "quick").click
           @browser.div.when_dom_changed do |div|
             expect(div).to have(20).spans

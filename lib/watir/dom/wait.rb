@@ -56,7 +56,7 @@ module Watir
           #   1: DOM modifications have started but exceeded timeout
           #   2: DOM modifications have not started
           if response == 1
-            message = "timed out after #{timeout} seconds, #{message}"
+            message = "timed out after #{opts[:timeout]} seconds, #{message}"
             raise Watir::Wait::TimeoutError, message
           end
         end
