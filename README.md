@@ -1,4 +1,4 @@
-# watir-dom-wait [![Build Status](https://travis-ci.org/p0deje/watir-dom-wait.png?branch=master)](https://travis-ci.org/p0deje/watir-dom-wait) [![Gem Version](https://badge.fury.io/rb/watir-dom-wait.png)](http://badge.fury.io/rb/watir-dom-wait)
+# watir-dom-wait [![Build Status](https://travis-ci.org/p0deje/watir-dom-wait.svg?branch=master)](https://travis-ci.org/p0deje/watir-dom-wait) [![Gem Version](https://badge.fury.io/rb/watir-dom-wait.svg)](http://badge.fury.io/rb/watir-dom-wait)
 
 [Watir](https://github.com/watir/watir) extension which provides with method to check for DOM changes.
 
