@@ -1,1 +1,2 @@
-require 'watir/dom/wait'
+require 'watir'
+require 'watir/dom/elements/element'

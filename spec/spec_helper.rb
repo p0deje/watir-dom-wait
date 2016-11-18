@@ -1,4 +1,5 @@
-require "watir/dom/wait"
+require "pry"
+require "watir-dom-wait"
 
 RSpec.configure do |spec|
   spec.filter_run_excluding bug: /\d+/
@@ -12,7 +13,8 @@ RSpec.configure do |spec|
     @browser.quit
   end
 
-  spec.after(:each) do
+  spec.after(:each) do |example|
+    binding.pry if example.exception && ENV['DEBUG']
     @browser.refresh
   end
 end
