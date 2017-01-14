@@ -19,9 +19,11 @@ module Watir
     def dom_changed?(delay: 1.1)
       driver.manage.timeouts.script_timeout = delay + 1
       driver.execute_async_script(DOM_WAIT_JS, wd, delay)
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      retry
     ensure
       # TODO: make sure we rollback to user-defined timeout
-      # blocked by https://code.google.com/p/selenium/issues/detail?id=6608
+      # blocked by https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/6608
       driver.manage.timeouts.script_timeout = 1
     end
   end # Element
