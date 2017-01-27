@@ -1,10 +1,9 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "watir-dom-wait"
-  spec.version       = "0.3.1"
+  spec.version       = "0.3.2"
   spec.authors       = ["Alex Rodionov"]
   spec.email         = %w(p0deje@gmail.com)
   spec.description   = "Watir extension which provides with method to check for DOM changes."
