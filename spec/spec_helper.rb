@@ -1,4 +1,3 @@
-require "pry"
 require "watir-dom-wait"
 
 RSpec.configure do |spec|
@@ -19,7 +18,6 @@ RSpec.configure do |spec|
   end
 
   spec.after(:each) do |example|
-    binding.pry if example.exception && ENV['DEBUG']
     @browser.refresh
   end
 end
