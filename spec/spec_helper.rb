@@ -4,12 +4,8 @@ RSpec.configure do |spec|
   spec.filter_run_excluding bug: /\d+/
 
   spec.before(:all) do
-    opts = {}
-    if ENV['TRAVIS']
-      Selenium::WebDriver::Chrome.path = "#{File.dirname(__FILE__)}/../bin/google-chrome"
-      opts[:args] = ['no-sandbox']
-    end
-    @browser = Watir::Browser.new(:chrome, opts)
+    Selenium::WebDriver::Chrome.path = "#{File.dirname(__FILE__)}/../bin/google-chrome" if ENV['TRAVIS']
+    @browser = Watir::Browser.new(:chrome)
     @browser.goto "data:text/html,#{File.read('spec/support/html/wait_for_dom.html')}"
   end
 
