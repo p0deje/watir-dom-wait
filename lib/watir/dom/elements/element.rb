@@ -19,7 +19,7 @@ module Watir
     def dom_changed?(delay: 1.1)
       element_call do
         begin
-          driver.manage.timeouts.script_timeout = delay + 1
+          driver.manage.timeouts.script_timeout = delay + Watir::DOM::Wait.minimum_script_timeout
           driver.execute_async_script(DOM_WAIT_JS, wd, delay)
         rescue Selenium::WebDriver::Error::JavascriptError => error
           # sometimes we start script execution before new page is loaded and
