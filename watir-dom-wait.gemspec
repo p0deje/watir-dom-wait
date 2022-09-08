@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "watir-dom-wait"
-  spec.version       = "0.3.3"
+  spec.version       = "0.4.0"
   spec.authors       = ["Alex Rodionov"]
   spec.email         = %w(p0deje@gmail.com)
   spec.description   = "Watir extension which provides with method to check for DOM changes."
@@ -16,9 +16,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "watir", ">= 6.4"
+  spec.add_dependency "watir", ">= 7.0"
 
-  spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
 end

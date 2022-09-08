@@ -1,31 +1,36 @@
 require 'spec_helper'
 
 describe Watir::Element do
-  describe "#when_dom_changed" do
+  describe "#dom_changed?" do
     context "when DOM is changed" do
-      context "when block is not given" do
-        it "waits using mutation observer" do
-          @browser.button(id: "quick").click
-          expect(@browser.div.wait_until(&:dom_changed?).spans.count).to eq(20)
-        end
+      it "waits using mutation observer" do
+        @browser.button(id: "quick").click
+        expect(@browser.div.wait_until(&:dom_changed?).spans.count).to eq(20)
+      end
 
-        it "waits using custom interval" do
-          @browser.button(id: "long").click
-          expect(@browser.div.wait_until(&:dom_changed?).spans.count).to eq(5)
-        end
+      it "waits using custom interval" do
+        @browser.button(id: "long").click
+        expect(@browser.div.wait_until(&:dom_changed?).spans.count).to eq(5)
+      end
 
-        it "raises timeout error" do
-          @browser.button(id: "quick").click
-          expect { @browser.div.wait_until(timeout: 1, &:dom_changed?) }.to raise_error(Watir::Wait::TimeoutError)
-        end
+      it "raises timeout error" do
+        @browser.button(id: "quick").click
+        expect { @browser.div.wait_until(timeout: 1, &:dom_changed?) }.to raise_error(Watir::Wait::TimeoutError)
+      end
 
-        context "when run more than one time" do
-          it "waits for DOM consecutively" do
-            3.times do |i|
-              sleep 1
-              @browser.button(id: "quick").click
-              expect(@browser.div.wait_until(&:dom_changed?).spans.count).to eq(20 * (i + 1))
-            end
+      it "resets script_timeout" do
+        @browser.driver.manage.timeouts.script_timeout = 7
+        @browser.button(id: "quick").click
+        @browser.div.wait_until(&:dom_changed?)
+        expect(@browser.driver.manage.timeouts.script_timeout).to eq(7)
+      end
+
+      context "when run more than one time" do
+        it "waits for DOM consecutively" do
+          3.times do |i|
+            sleep 1
+            @browser.button(id: "quick").click
+            expect(@browser.div.wait_until(&:dom_changed?).spans.count).to eq(20 * (i + 1))
           end
         end
       end
